@@ -1,0 +1,203 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Shopping Cart</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url 'index' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="#">Cart</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<!--================Cart Area =================-->
+<h4 style="text-align: center;color:rgb(7, 7, 7);">{% for msg in messages %}
+{{msg}}
+{% endfor %}</h4>
+{% if count > 0 %}
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in cart1 %}
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img style="height: 150px;width: 150px;" src="{{p.img}}" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>{{ p.name }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>${{ p.price }}</h5>
+                            </td>
+                            <td class="quantity">
+                                <div class="quantity buttons-add-minus d-flex align-items-center">
+                                    <!-- Plus Button -->
+                                    <a href="{% url 'addCart' p.id %}" class="btn btn-primary">+</a>
+
+                                    <!-- Quantity Label -->
+                                    <label for="" style="margin: 0 10px;">{{ p.quantity }}</label>
+
+                                    <!-- Minus Button -->
+                                    <a href="{% url 'decreaseCart' p.id %}" class="btn btn-primary">-</a>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>${{ p.total_price }}</h5>
+                            </td>
+                            <td>
+                                <a href="{% url 'delete' p.id %}"><button type="submit"
+                                        class="btn btn-danger">Delete</button></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        <tr class="bottom_button">
+
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <form action="{% url 'couponCode' %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="cupon_text d-flex align-items-center">
+                                        <input type="text" name="coupon" placeholder="Coupon Code">
+                                        <span>
+                                            <button class="primary-btn" type="submit"
+                                                class="btn btn-danger">Apply</button>
+                                        </span>
+                                        <!-- <a class="primary-btn" href="#">Apply</a> -->
+                                        <!-- <input class="primary-btn" type="" class="btn btn-danger"></input> -->
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>product total price</h5>
+                            </td>
+                            <td>
+                                <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                                <h5>${{ subtotal }}</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>product discount</h5>
+                            </td>
+                            <td>
+                                <h5>Discount</h5>
+                            </td>
+                            <td>
+                                <h5>${{ discount2 }}</h5>
+                            </td>
+                        </tr>
+                        {% if discount > 0%}
+                        
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>Coupon discount</h5>
+                            </td>
+                            <td>
+                                <h5>Coupon Discount</h5>
+                            </td>
+                            <td>
+                                <h5>${{ discount }}</h5>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>Shipping charges</h5>
+                            </td>
+                            <td>
+                                <h5>Shipping</h5>
+                            </td>
+                            <td>
+                                <h5>${{ shipping }}</h5>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+
+                            </td>
+                            <td>
+                                <h5>Total peying amount</h5>
+                            </td>
+                            <td>
+                                <h5>Total</h5>
+                            </td>
+                            <td>
+                                <h5>${{ total_product_price }}</h5>
+                            </td>
+                        </tr>
+                        <tr class="out_button_area">
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" href="{% url 'category' %}">Continue Shopping</a>
+                                    <a class="primary-btn" href="{% url 'checkout' %}">Proceed to checkout</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% else %}
+<h2>your cart is empty !</h2>
+{% endif %}
+<!--================End Cart Area =================-->
+
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .razorpay-payment-button {
+        display: none;
+    }
+</style>
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Checkout</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url 'index' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+{% if count > 0 %}
+{{msg}}
+<!--================Checkout Area =================-->
+<section class="checkout_area section_gap">
+    <div class="container">
+        <div class="billing_details">
+            <div class="row">
+                <form class="row contact_form" action="{% url 'order' %}" method="post">
+                    {% csrf_token %}
+                    <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_test_bilBagOBVTi4lE"
+                        data-amount={{response.amount}} data-currency={{response.currency}}
+                        data-buttontext="Pay with Razorpay" data-name="{{request.user}}" data-theme.color="#F37254"
+                        data-description="" data-image="" data-prefill.name={{request.user.username}}
+                        data-prefill.email={{request.user.email}}>
+                        </script>
+                    <div class="col-lg-8">
+                        <h3>Billing Details</h3>
+                        <div class="col-md-5 form-group p_star">
+                            <input type="text" class="form-control" id="first_name" name="first_name"
+                                placeholder="First name" required>
+                            <span class="placeholder" placeholder="First name"></span>
+                        </div>
+                        <div class="col-md-5 form-group p_star">
+                            <input type="text" class="form-control" id="last_name" name="last_name"
+                                placeholder="Last name" required>
+                            <span class="placeholder" placeholder="Last name"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="company_name" name="company_name"
+                                placeholder="Company name" required>
+                        </div>
+                        <div class="col-md-5 form-group p_star">
+                            <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone number"
+                                required>
+                            <span class="placeholder" placeholder="Phone number"></span>
+                        </div>
+                        <div class="col-md-5 form-group p_star">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Email Address"
+                                required>
+                            <span class="placeholder" placeholder="Email Address"></span>
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <input type="text" class="form-control" id="country" name="country" placeholder="Country"
+                                required>
+                            <span class="placeholder" placeholder="Country"></span>
+                        </div>
+                        <!-- <div class="col-md-12 form-group p_star">
+                                <select class="country_select">
+                                    <option value="1">Country</option>
+                                    <option value="2">Country</option>
+                                    <option value="4">Country</option>
+                                </select>
+                            </div> -->
+                        <div class="col-md-12 form-group p_star">
+                            <input type="text" class="form-control" id="address1" name="address1"
+                                placeholder="Address line 01" required>
+                            <span class="placeholder" placeholder="Address line 01"></span>
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <input type="text" class="form-control" id="add2" name="address2"
+                                placeholder="Address line 02" required>
+                            <span class="placeholder" placeholder="Address line 02"></span>
+                        </div>
+                        <div class="col-md-5 form-group p_star">
+                            <input type="text" class="form-control" id="city" name="city" placeholder="Town/City"
+                                required>
+                            <span class="placeholder" placeholder="Town/City"></span>
+                        </div>
+                        <div class="col-md-5 form-group p_star">
+                            <input type="text" class="form-control" id="district" name="district" placeholder="district"
+                                required>
+                            <span class="placeholder" placeholder="district"></span>
+                        </div>
+
+                        <!-- <div class="col-md-12 form-group p_star">
+                                <select class="country_select">
+                                    <option value="1">District</option>
+                                    <option value="2">District</option>
+                                    <option value="4">District</option>
+                                </select>
+                            </div> -->
+                        <div class="col-md-12 form-group">
+                            <input type="number" class="form-control" id="pincode" name="pincode"
+                                placeholder="Postcode/ZIP" required>
+                        </div>
+
+                        <div class="col-md-12 form-group">
+
+                            <textarea class="form-control" name="note" id="note" rows="1"
+                                placeholder="Order Notes"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="order_box">
+                            <h2>Your Order</h2>
+                            <ul class="list">
+                                <li><a href="#">Product <span>Total</span></a></li>
+                                {% for i in cart %}
+                                <li><a href="#">{{ i.name}} <span class="middle">x {{ i.quantity }}</span> <span
+                                            class="last">${{ i.total_price }}</span></a></li>
+                                {% endfor %}
+                                <!-- <li><a href="#">Fresh Tomatoes <span class="middle">x 02</span> <span
+                                            class="last">$720.00</span></a></li>
+                                <li><a href="#">Fresh Brocoli <span class="middle">x 02</span> <span
+                                            class="last">$720.00</span></a></li> -->
+                            </ul>
+                            <ul class="list list_2">
+                                <li><a href="#">Subtotal <span>${{subtotal}}</span></a></li>
+                                <li><a href="#">Shipping <span>Flat rate: ${{shipping}}</span></a></li>
+                                <li><a href="#">Coupon discount <span>discount: ${{discount}}</span></a></li>
+                                <li><a href="#">Total <span>${{total_product_price}}</span></a></li>
+                            </ul>
+
+                            <button class="primary-btn" type="submit" value="submit"> Prceed to Paypal </button>
+                            <!-- <a class="primary-btn" href="#">Prceed to Paypal</a> -->
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+{{msg}}
+{% endif %}
+<!--================End Checkout Area =================-->
+
+{% endblock %}

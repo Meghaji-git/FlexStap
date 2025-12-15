@@ -1,0 +1,148 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>wish list</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url 'index' %}">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="#">Wish list</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<!--================Cart Area =================-->
+<h2>{{msg}}</h2>
+{% if count > 0 %}
+<section class="cart_area">
+    <div class="container">
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col"></th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in wish %}
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img style="height: 150px;width: 150px;" src="{{p.img}}" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>{{ p.name }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>${{ p.price }}</h5>
+                            </td>
+                            <!-- <td class="quantity"> -->
+                                <!-- <div class="quantity buttons-add-minus d-flex align-items-center">
+                                </div> -->
+                            <!-- </td> -->
+                             <td>
+
+                            </td>
+                            <td>
+                                <a href="{% url 'list_delete' p.id %}"><button type="submit"
+                                        class="btn btn-danger">Delete</button></a>
+                            </td>
+                            <td>
+                                <a href="{% url 'addToCart' p.id %}"><button type="submit"
+                                        class="btn btn-danger">add</button></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        <tr class="bottom_button">
+
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            
+                           
+                            
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            
+                            
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            
+                            
+                           
+                        </tr>
+                        <tr>
+                            <td>
+
+                            </td>
+                            
+                           
+                          
+                        </tr>
+
+                        <tr>
+                            <td>
+
+                            </td>
+            
+                            
+                        </tr>
+                        <tr class="out_button_area">
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <div class="checkout_btn_inner d-flex align-items-center">
+                                    <a class="gray_btn" href="{% url 'cart' %}">Continue Shopping</a>
+                                    <a class="primary-btn" href="{% url 'checkout' %}">Proceed to checkout</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+<h2>Your wish list is empty !</h2>
+{% endif %}
+<!--================End wish list Area =================-->
+
+{% endblock %}
